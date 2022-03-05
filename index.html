@@ -83,11 +83,17 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            person: 'bd',            
+            person: "bd",            
             timestamp: now,
-            acl: {x:0.2332,y:0.456,z:0.455},
-            acg: {x:0.9832,y:0.456,z:0.489},
-            rot: {a:0.455,b:0.899,g:0.899}
+            ax: 0.2332,
+            ay: 0.456,
+            az: 0.455,
+            agx: 0.2332,
+            agy: 0.456,
+            agz: 0.455,
+            ra: 0.899,
+            rb: 0.859,
+            rg: 0.886
           })
         });
         const data = await response.json();
@@ -98,17 +104,6 @@
         console.log(error)
       }
     }
-
-
-
-    /*
-        (async function() {
-            const { text } = await( await fetch(`/api/message`)).json();
-            document.querySelector('#name').textContent = text;
-        }())
-    */
-
-
     // https://docs.microsoft.com/en-us/azure/static-web-apps/add-api?tabs=vanilla-javascript
     // https://docs.microsoft.com/en-us/rest/api/storageservices/designing-a-scalable-partitioning-strategy-for-azure-table-storage
     // https://trekhleb.dev/blog/2021/gyro-web/
