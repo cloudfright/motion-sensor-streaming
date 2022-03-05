@@ -45,6 +45,15 @@
 
       var now = Date.now();
       // do HTTP post here with event data 
+
+      /*
+      DeviceMotionEvent {
+        isTrusted: true, 
+        acceleration: {x: -0.016416461668629197, y: -0.008223821129091084, z: 0.03818447696566581},
+        accelerationIncludingGravity: {x: 0.03576176159707829, y: -0.26739436074271794, z: -9.764901108551024}, 
+        rotationRate: {alpha: -0.1024065136597755, beta: 0.03143359110734988, gamma: 0.0017918174194308646}, 
+        interval: 0.01666666753590107, …} (JjOMabK, line 141)
+      */
     }
 
     function toggleStreaming() {
@@ -74,8 +83,11 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
+            person: 'bd',            
             timestamp: now,
-            sensors: "sensor data"
+            acl: {x:0.2332,y:0.456,z:0.455},
+            acg: {x:0.9832,y:0.456,z:0.489},
+            rot: {a:0.455,b:0.899,g:0.899}
           })
         });
         const data = await response.json();
