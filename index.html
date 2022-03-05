@@ -8,10 +8,20 @@
 </head>
 
 <body style="background-color:#fefefc">
-  <button type="button" class="btn btn-outline-primary btn-sm " onclick="requestPermission()">Request Permission</button>
-  <p>Loading content from the API: <b id="name">...</b></p>
- 
+  <h1>Motion Streaming</h1>
+  <button type="button" class="btn btn-outline-primary btn-sm " onclick="requestPermission()">Request
+    Permission</button>
+  
+  <button type="button" class="btn btn-outline-primary btn-sm " onclick="toggleStreaming()">Toggle Streaming</button>
+  <button type="button" class="btn btn-outline-secondary btn-sm " onclick="testStream()">Send Test Message</button>
+
+  <div class="spinner-grow text-primary m-5" role="status" id="spinner" style="visibility:hidden">
+  </div>
+
+
   <script>
+
+    let isStreaming = false;
 
     function requestPermission() {
       if (typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -37,12 +47,59 @@
       // do HTTP post here with event data 
     }
 
+    function toggleStreaming() {
+      let spinner = document.getElementById("spinner");
+      
+      if (isStreaming) {
+        spinner.style.visibility = 'hidden';
+        isStreaming = false;
+      }  
+      else {
+        spinner.style.visibility = 'visible';
+        isStreaming = true;
+      }  
+    }
 
-    (async function() {
-        const { text } = await( await fetch(`/api/message`)).json();
-        document.querySelector('#name').textContent = text;
-    }())
+    async function testStream() {
+
+      if (!isStreaming)
+        return;
+
+      var now = Date.now();
+
+      try {
+        const response = await fetch('/api/message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            timestamp: now,
+            sensors: "sensor data"
+          })
+        });
+        const data = await response.json();
+        // enter you logic when the fetch is successful
+        console.log(data);
+      } catch (error) {
+        // enter your logic for when there is an error (ex. error toast)
+        console.log(error)
+      }
+    }
+
+
+
+    /*
+        (async function() {
+            const { text } = await( await fetch(`/api/message`)).json();
+            document.querySelector('#name').textContent = text;
+        }())
+    */
+
+
     // https://docs.microsoft.com/en-us/azure/static-web-apps/add-api?tabs=vanilla-javascript
+    // https://docs.microsoft.com/en-us/rest/api/storageservices/designing-a-scalable-partitioning-strategy-for-azure-table-storage
+    // https://trekhleb.dev/blog/2021/gyro-web/
   </script>
 </body>
 
