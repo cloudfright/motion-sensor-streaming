@@ -13,7 +13,7 @@
     Permission</button>
   
   <button type="button" class="btn btn-outline-primary btn-sm " onclick="toggleStreaming()">Toggle Streaming</button>
-  <button type="button" class="btn btn-outline-secondary btn-sm " onclick="testStream()">Send Test Message</button>
+ <!-- <button type="button" class="btn btn-outline-secondary btn-sm " onclick="testStream()">Send Test Message</button> -->
 
   <div class="spinner-grow text-primary m-5" role="status" id="spinner" style="visibility:hidden">
   </div>
@@ -42,18 +42,7 @@
     }
 
     function handleOrientation(event) {
-
-      var now = Date.now();
-      // do HTTP post here with event data 
-
-      /*
-      DeviceMotionEvent {
-        isTrusted: true, 
-        acceleration: {x: -0.016416461668629197, y: -0.008223821129091084, z: 0.03818447696566581},
-        accelerationIncludingGravity: {x: 0.03576176159707829, y: -0.26739436074271794, z: -9.764901108551024}, 
-        rotationRate: {alpha: -0.1024065136597755, beta: 0.03143359110734988, gamma: 0.0017918174194308646}, 
-        interval: 0.01666666753590107, …} (JjOMabK, line 141)
-      */
+      sendSensorData(event);      
     }
 
     function toggleStreaming() {
@@ -69,12 +58,19 @@
       }  
     }
 
-    async function testStream() {
+    async function sendSensorData(event) {
 
       if (!isStreaming)
         return;
 
-      // var now = Date.now();
+        /* Example data
+      DeviceMotionEvent {
+        isTrusted: true, 
+        acceleration: {x: -0.016416461668629197, y: -0.008223821129091084, z: 0.03818447696566581},
+        accelerationIncludingGravity: {x: 0.03576176159707829, y: -0.26739436074271794, z: -9.764901108551024}, 
+        rotationRate: {alpha: -0.1024065136597755, beta: 0.03143359110734988, gamma: 0.0017918174194308646}, 
+        interval: 0.01666666753590107, …} 
+      */
 
       try {
         const response = await fetch('/api/message', {
@@ -85,23 +81,18 @@
           body: JSON.stringify({
             partitionKey: "bd",
             rowKey: Date.now(),
-            ax: 0.2332,
-            ay: 0.456,
-            az: 0.455,
-            agx: 0.2332,
-            agy: 0.456,
-            agz: 0.455,
-            ra: 0.899,
-            rb: 0.859,
-            rg: 0.886
+            ax: event.acceleration.x,
+            ay: event.acceleration.y,
+            az: event.acceleration.z,
+            agx: event.accelerationIncludingGravity.x,
+            agy: event.accelerationIncludingGravity.y,
+            agz: event.accelerationIncludingGravity.z,
+            ra: event.rotationRate.alpha,
+            rb: event.rotationRate.beta,
+            rg: event.rotationRate.gamma
           })
         });
-
-        const data = await response.json();
-        // enter you logic when the fetch is successful
-        console.log(data);
       } catch (error) {
-        // enter your logic for when there is an error (ex. error toast)
         console.log(error)
       }
     }
