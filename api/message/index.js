@@ -1,14 +1,11 @@
 
-const azureStorage = require('azure-storage');
-const tableName = "motioncap";
-const tableService = azure.createTableService();
+const storage = require('@azure/data-tables');
+const client = TableClient.fromConnectionString(TABLE_STORAGE_CONNECTION_STRING, "motioncap");
+
 
 module.exports = async function (context, req) {
 
-    // Adding PartitionKey & RowKey as they are required for any data stored in Azure Table Storage
-    const item = req.body;
-    item.PartitionKey = data.person;
-    item.RowKey = data.timestamp;
+    await client.createEntity(req.body);
 
     // Use { echoContent: true } if you want to return the created item including the Timestamp & etag
     tableService.insertEntity(tableName, item, { echoContent: true }, function (error, result, response) {
@@ -22,6 +19,8 @@ module.exports = async function (context, req) {
         }
     });
 };
+
+// https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/MigrationGuide.md
 
 
 // https://docs.microsoft.com/en-us/azure/storage/common/storage-samples-javascript#table-samples-v11

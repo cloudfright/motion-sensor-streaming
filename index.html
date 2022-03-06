@@ -74,7 +74,7 @@
       if (!isStreaming)
         return;
 
-      var now = Date.now();
+      // var now = Date.now();
 
       try {
         const response = await fetch('/api/message', {
@@ -83,8 +83,8 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            person: "bd",            
-            timestamp: now,
+            partitionKey: "bd",
+            rowKey: Date.now(),
             ax: 0.2332,
             ay: 0.456,
             az: 0.455,
@@ -96,6 +96,7 @@
             rg: 0.886
           })
         });
+
         const data = await response.json();
         // enter you logic when the fetch is successful
         console.log(data);
