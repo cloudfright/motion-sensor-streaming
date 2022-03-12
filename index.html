@@ -8,98 +8,116 @@
 </head>
 
 <body style="background-color:#fefefc">
-    
+
   <div class="container">
     <div class="row p-5">
       <h5 class="display-5">Motion Streaming</h5>
     </div>
     <div class="row">
+      <div class="col-sm-1">
+        <h2>1</h2>
+      </div>
       <div class="col">
         <button type="button" class="btn btn-outline-primary btn-lg" onclick="requestPermission()">Request
-          Permission</button>      
-      </div>
-      <div class="col">
-        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" autocomplete="off" onclick="toggleStreaming()">Toggle Streaming</button>
-       
-      </div>
-      <div class="col">
-        <div class="spinner-grow text-primary" role="status" id="spinner" style="visibility:hidden">
- 
+          Permission</button>
       </div>
     </div>
     <div class="row py-5">
-      
-      <div class="btn-group" role="group" aria-label="Person select buttons">
-      
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" data-person="bd" onchange="selectPerson(this)">
-        <label class="btn btn-outline-primary" for="btnradio1">BD</label>
 
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" data-person="cvh" onchange="selectPerson(this)">
-        <label class="btn btn-outline-primary" for="btnradio2">CVH</label>
-      
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" data-person="jj" onchange="selectPerson(this)">
-        <label class="btn btn-outline-primary" for="btnradio3">JJ</label>
+      <div class="col-sm-1">
+        <h2>2</h2>
+      </div>
 
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked data-person="js" onchange="selectPerson(this)">
-        <label class="btn btn-outline-primary" for="btnradio4">JS</label>
-      
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" data-person="rt" onchange="selectPerson(this)">
-        <label class="btn btn-outline-primary" for="btnradio5">RT</label>
+      <div class="col-sm-11">
+        <div class="btn-group btn-group-lg" role="group" aria-label="Person select buttons">
 
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off" data-person="sp" onchange="selectPerson(this)">
-        <label class="btn btn-outline-primary" for="btnradio6">SP</label>
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" data-person="bd"
+            onchange="selectPerson(this)">
+          <label class="btn btn-outline-primary" for="btnradio1">BD</label>
 
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" data-person="cvh"
+            onchange="selectPerson(this)">
+          <label class="btn btn-outline-primary" for="btnradio2">CVH</label>
+
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" data-person="jj"
+            onchange="selectPerson(this)">
+          <label class="btn btn-outline-primary" for="btnradio3">JJ</label>
+
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked
+            data-person="js" onchange="selectPerson(this)">
+          <label class="btn btn-outline-primary" for="btnradio4">JS</label>
+
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" data-person="rt"
+            onchange="selectPerson(this)">
+          <label class="btn btn-outline-primary" for="btnradio5">RT</label>
+
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off" data-person="sp"
+            onchange="selectPerson(this)">
+          <label class="btn btn-outline-primary" for="btnradio6">SP</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-1">
+        <h2>3</h2>
+      </div>
+
+      <div class="col-sm-5">
+        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="button" autocomplete="off"
+          onclick="toggleStreaming()">Toggle Streaming</button>
+
+      </div>
+      <div class="col-sm-6">
+        <div class="spinner-grow text-primary" role="status" id="spinner" style="visibility:hidden">
+
+        </div>
       </div>
     </div>
 
-  </div>
+    <script>
 
+      let isStreaming = false;
+      let person = "js";
 
-
-  <script>
-
-    let isStreaming = false;
-    let person = "js";
-
-    function requestPermission() {
-      if (typeof DeviceMotionEvent.requestPermission === 'function') {
-        // Handle iOS 13+ devices.
-        DeviceMotionEvent.requestPermission()
-          .then((state) => {
-            if (state === 'granted') {
-              window.addEventListener('devicemotion', handleOrientation);
-            } else {
-              console.error('Request to access the orientation was rejected');
-            }
-          })
-          .catch(console.error);
-      } else {
-        // Handle regular non iOS 13+ devices.
-        window.addEventListener('devicemotion', handleOrientation);
+      function requestPermission() {
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+          // Handle iOS 13+ devices.
+          DeviceMotionEvent.requestPermission()
+            .then((state) => {
+              if (state === 'granted') {
+                window.addEventListener('devicemotion', handleOrientation);
+              } else {
+                console.error('Request to access the orientation was rejected');
+              }
+            })
+            .catch(console.error);
+        } else {
+          // Handle regular non iOS 13+ devices.
+          window.addEventListener('devicemotion', handleOrientation);
+        }
       }
-    }
 
-    function handleOrientation(event) {
-      sendSensorData(event);      
-    }
+      function handleOrientation(event) {
+        sendSensorData(event);
+      }
 
-    function toggleStreaming() {
-      let spinner = document.getElementById("spinner");
-      
-      if (isStreaming) {
-        spinner.style.visibility = 'hidden';
-        isStreaming = false;
-      }  
-      else {
-        spinner.style.visibility = 'visible';
-        isStreaming = true;
-      }  
-    }
+      function toggleStreaming() {
+        let spinner = document.getElementById("spinner");
 
-    async function sendSensorData(event) {
+        if (isStreaming) {
+          spinner.style.visibility = 'hidden';
+          isStreaming = false;
+        }
+        else {
+          spinner.style.visibility = 'visible';
+          isStreaming = true;
+        }
+      }
 
-      if (!isStreaming)
-        return;
+      async function sendSensorData(event) {
+
+        if (!isStreaming)
+          return;
 
         /* Example data
       DeviceMotionEvent {
@@ -110,44 +128,44 @@
         interval: 0.01666666753590107, …} 
       */
 
-      try {
-        const response = await fetch('/api/message', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            partitionKey: person,
-            rowKey: Date.now(),
-            ax: event.acceleration.x,
-            ay: event.acceleration.y,
-            az: event.acceleration.z,
-            agx: event.accelerationIncludingGravity.x,
-            agy: event.accelerationIncludingGravity.y,
-            agz: event.accelerationIncludingGravity.z,
-            ra: event.rotationRate.alpha,
-            rb: event.rotationRate.beta,
-            rg: event.rotationRate.gamma
-          })
-        });
-      } catch (error) {
-        console.log(error)
+        try {
+          const response = await fetch('/api/message', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              partitionKey: person,
+              rowKey: Date.now(),
+              ax: event.acceleration.x,
+              ay: event.acceleration.y,
+              az: event.acceleration.z,
+              agx: event.accelerationIncludingGravity.x,
+              agy: event.accelerationIncludingGravity.y,
+              agz: event.accelerationIncludingGravity.z,
+              ra: event.rotationRate.alpha,
+              rb: event.rotationRate.beta,
+              rg: event.rotationRate.gamma
+            })
+          });
+        } catch (error) {
+          console.log(error)
+        }
       }
-    }
-    // https://docs.microsoft.com/en-us/azure/static-web-apps/add-api?tabs=vanilla-javascript
-    // https://docs.microsoft.com/en-us/rest/api/storageservices/designing-a-scalable-partitioning-strategy-for-azure-table-storage
-    // https://trekhleb.dev/blog/2021/gyro-web/
+      // https://docs.microsoft.com/en-us/azure/static-web-apps/add-api?tabs=vanilla-javascript
+      // https://docs.microsoft.com/en-us/rest/api/storageservices/designing-a-scalable-partitioning-strategy-for-azure-table-storage
+      // https://trekhleb.dev/blog/2021/gyro-web/
 
 
-    function selectPerson(button) {
-      person = button.getAttribute("data-person");
-    }
+      function selectPerson(button) {
+        person = button.getAttribute("data-person");
+      }
 
-  </script>
+    </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
 </body>
 
 </html>
