@@ -9,8 +9,6 @@
 
 <body style="background-color:#fefefc">
     
-
-
   <div class="container">
     <div class="row p-5">
       <h5 class="display-5">Motion Streaming</h5>
@@ -29,6 +27,31 @@
  
       </div>
     </div>
+    <div class="row py-5">
+      
+      <div class="btn-group" role="group" aria-label="Person select buttons">
+      
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" data-person="bd" onchange="selectPerson(this)">
+        <label class="btn btn-outline-primary" for="btnradio1">BD</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" data-person="cvh" onchange="selectPerson(this)">
+        <label class="btn btn-outline-primary" for="btnradio2">CVH</label>
+      
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" data-person="jj" onchange="selectPerson(this)">
+        <label class="btn btn-outline-primary" for="btnradio3">JJ</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" checked data-person="js" onchange="selectPerson(this)">
+        <label class="btn btn-outline-primary" for="btnradio4">JS</label>
+      
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" data-person="rt" onchange="selectPerson(this)">
+        <label class="btn btn-outline-primary" for="btnradio5">RT</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off" data-person="sp" onchange="selectPerson(this)">
+        <label class="btn btn-outline-primary" for="btnradio6">SP</label>
+
+      </div>
+    </div>
+
   </div>
 
 
@@ -36,6 +59,7 @@
   <script>
 
     let isStreaming = false;
+    let person = "js";
 
     function requestPermission() {
       if (typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -93,7 +117,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            partitionKey: "bd",
+            partitionKey: person,
             rowKey: Date.now(),
             ax: event.acceleration.x,
             ay: event.acceleration.y,
@@ -113,6 +137,12 @@
     // https://docs.microsoft.com/en-us/azure/static-web-apps/add-api?tabs=vanilla-javascript
     // https://docs.microsoft.com/en-us/rest/api/storageservices/designing-a-scalable-partitioning-strategy-for-azure-table-storage
     // https://trekhleb.dev/blog/2021/gyro-web/
+
+
+    function selectPerson(button) {
+      person = button.getAttribute("data-person");
+    }
+
   </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
