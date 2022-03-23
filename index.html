@@ -140,9 +140,9 @@
               ax: event.acceleration.x,
               ay: event.acceleration.y,
               az: event.acceleration.z,
-              agx: event.accelerationIncludingGravity.x,
-              agy: event.accelerationIncludingGravity.y,
-              agz: event.accelerationIncludingGravity.z,
+              agx: event.accelerationIncludingGravity.x - event.acceleration.x,
+              agy: event.accelerationIncludingGravity.y - event.acceleration.y,
+              agz: event.accelerationIncludingGravity.z - event.acceleration.z,
               ra: event.rotationRate.alpha,
               rb: event.rotationRate.beta,
               rg: event.rotationRate.gamma
