@@ -23,9 +23,9 @@ class ExponentialMovingAverage {
 	}
 }
 
-let smoothAx =  new ExponentialMovingAverage(0.1);
-let smoothAy =  new ExponentialMovingAverage(0.1);
-let smoothAz =  new ExponentialMovingAverage(0.1);
+let smoothAx =  new ExponentialMovingAverage(0.7);
+let smoothAy =  new ExponentialMovingAverage(0.7);
+let smoothAz =  new ExponentialMovingAverage(0.7);
 
 function requestPermission() {
   if (typeof DeviceMotionEvent.requestPermission === 'function') {
