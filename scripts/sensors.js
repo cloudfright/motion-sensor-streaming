@@ -74,12 +74,12 @@ DeviceMotionEvent {
   accelerationIncludingGravity: {x: 0.03576176159707829, y: -0.26739436074271794, z: -9.764901108551024}, 
   rotationRate: {alpha: -0.1024065136597755, beta: 0.03143359110734988, gamma: 0.0017918174194308646}, 
   interval: 0.01666666753590107, …} 
-*/
+
 
 smoothAx.update(event.acceleration.x);
 smoothAy.update(event.acceleration.y);
 smoothAz.update(event.acceleration.z);
-
+*/
   try {
     const response = await fetch('/api/message', {
       method: 'POST',
@@ -95,14 +95,15 @@ smoothAz.update(event.acceleration.z);
         agx: event.accelerationIncludingGravity.x - event.acceleration.x,
         agy: event.accelerationIncludingGravity.y - event.acceleration.y,
         agz: event.accelerationIncludingGravity.z - event.acceleration.z,
-        // ra: event.rotationRate.alpha,
-        // rb: event.rotationRate.beta,
-        // rg: event.rotationRate.gamma
-        
+        ra: event.rotationRate.alpha,
+        rb: event.rotationRate.beta,
+        rg: event.rotationRate.gamma
+       /* 
         // test the smoothed values
         sx: smoothAx.filtered,
         sy: smoothAy.filtered,
         sz: smoothAz.filtered,
+        */
       })
     });
   } catch (error) {
